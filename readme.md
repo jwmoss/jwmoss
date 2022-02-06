@@ -1,8 +1,6 @@
 <h1 align="center">Hi 👋, I'm Jonathan Moss</h1>
 <h3 align="center">A passionate, automation engineer based out of Wilmington, NC.</h3>
 
-- 🌱 I’m currently learning **Kubernetes, Golang, and REST APIs.**
-
 - 💬 Ask me about **PowerShell, Office 365, and Automation.**
 
 - 📫 How to reach me **jwmoss88@gmail.com**
