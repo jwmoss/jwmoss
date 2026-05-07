@@ -4,7 +4,7 @@ Husband, dad, platform engineer. Focused on IaC and AI across on-prem and cloud.
 
 - 🏡 Remote from Wilmington, NC.
 - 🌱 Obsessing on AI, IaC, and DevOps.
-- 🔭 Past life: PowerShell user-group co-organizer (Research Triangle).
+- 🔭 Past life: PowerShell user-group co-organizer (rtpsug).
 - 💬 Ask me about **Terraform, Azure, PowerShell, Agents, AI, Databricks, Intune, Entra ID, Microsoft Graph, FinOps, or PowerShell**.
 - 🍳 Off-screen: smoking briskets and spending time with family.
 
