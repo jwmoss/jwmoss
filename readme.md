@@ -20,7 +20,7 @@ Some of my projects and repos:
 - 📦 [Packer](https://github.com/jwmoss/Packer) - Hashicorp Packer templates for image builds.
 - 🐳 [JenkinsPwsh](https://github.com/jwmoss/JenkinsPwsh) - Jenkins master with PowerShell installed for PowerShell-driven pipelines.
 - 🍎 [dotfiles](https://github.com/jwmoss/dotfiles) - Personal dotfiles for macOS — zsh, git, ghostty, and more.
-- 🌐 [jonathanmoss.dev](https://jonathanmoss.dev) - Personal consulting site (coming soon, private repo).
+- 🌐 [jonathanmoss.dev](https://jonathanmoss.dev) - Independent platform engineering consulting - infrastructure, identity, data, automation.
 
 > Other work lives in private repos: Terraform module libraries, market research pipelines, prediction-market tooling, and a Claude Code skills collection.
 
@@ -28,4 +28,4 @@ I'm always open to building, contributing, collaborating, and chatting. Feel fre
 
 - 🐦 [x.com/dadinthecloud](https://x.com/dadinthecloud)
 - ✉️ [jwmoss88@gmail.com](mailto:jwmoss88@gmail.com)
-- 🌍 [jonathanmoss.dev](https://jonathanmoss.dev) (coming soon)
+- 🌍 [jonathanmoss.dev](https://jonathanmoss.dev)
