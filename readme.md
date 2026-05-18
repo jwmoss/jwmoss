@@ -11,9 +11,12 @@ Husband, dad, platform engineer. Focused on IaC and AI across on-prem and cloud.
 Open source I'm contributing to:
 
 - 🦀 [openclaw/crabbox](https://github.com/openclaw/crabbox) - Azure provider support: Linux + native Windows leases ([#39](https://github.com/openclaw/crabbox/pull/39)), Windows desktop + WSL2 leases ([#81](https://github.com/openclaw/crabbox/pull/81)), checkpointable OS disks ([#111](https://github.com/openclaw/crabbox/pull/111)), and split bootstrap profiles ([#112](https://github.com/openclaw/crabbox/pull/112)).
+- 🖨️ [mvanhorn/printing-press-library](https://github.com/mvanhorn/printing-press-library) - Endorsed library of CLIs from the CLI Printing Press: harris-teeter CLI ([#649](https://github.com/mvanhorn/printing-press-library/pull/649)) and redfin auto-refresh + client-side filter fix ([#645](https://github.com/mvanhorn/printing-press-library/pull/645)).
 
 Some of my projects and repos, newest first:
 
+- 🗓️ [skycli](https://github.com/jwmoss/skycli) - Unofficial Go CLI for the Skylight Calendar private API (frames, chores, events, lists, photos, routines).
+- 🍺 [homebrew-tap](https://github.com/jwmoss/homebrew-tap) - Homebrew tap for my CLIs (`brew tap jwmoss/tap`).
 - 🏛️ [congress-trades](https://github.com/jwmoss/congress-trades) - Track and analyze congressional trade disclosures.
 - 📊 [optionctl](https://github.com/jwmoss/optionctl) - CLI for working with options data and analytics.
 - 🖥️ [unraidctl](https://github.com/jwmoss/unraidctl) - Go CLI for interacting with the Unraid API on my home server.
