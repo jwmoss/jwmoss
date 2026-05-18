@@ -1,0 +1,52 @@
+name: Update profile
+
+on:
+  schedule:
+    - cron: "17 9 * * *"
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd  # v6.0.2
+        with:
+          persist-credentials: false
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@2ddd2b9cb38ad8efd50337e8ab201519a34c9f24  # v8.1.0
+        with:
+          python-version: "3.12"
+
+      - name: Refresh readme
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: uv run scripts/update_profile.py
+
+      - name: Open PR if changed
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          if git diff --quiet readme.md; then
+            echo "no changes"
+            exit 0
+          fi
+          branch="profile-update-$(date -u +%Y%m%d-%H%M)"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          gh auth setup-git
+          git checkout -b "$branch"
+          git add readme.md
+          git commit -m "Refresh profile with new repos and OSS contributions"
+          git push -u origin "$branch"
+          gh pr create \
+            --title "Refresh profile with new repos and OSS contributions" \
+            --body "Automated nightly update from .github/workflows/update-profile.yml. Hand-curate the 🆕 entries before merging." \
+            --base main \
+            --head "$branch"
