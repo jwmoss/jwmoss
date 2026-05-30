@@ -15,6 +15,7 @@ Open source I'm contributing to:
 
 Some of my projects and repos, newest first:
 
+- 🆕 [restctl-template](https://github.com/jwmoss/restctl-template) - Cookiecutter template for Go REST API CLI tools.
 - 🗓️ [skycli](https://github.com/jwmoss/skycli) - Unofficial Go CLI for the Skylight Calendar private API (frames, chores, events, lists, photos, routines).
 - 🍺 [homebrew-tap](https://github.com/jwmoss/homebrew-tap) - Homebrew tap for my CLIs (`brew tap jwmoss/tap`).
 - 🏛️ [congress-trades](https://github.com/jwmoss/congress-trades) - Track and analyze congressional trade disclosures.
