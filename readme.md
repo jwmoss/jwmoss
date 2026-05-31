@@ -16,20 +16,20 @@ Open source I'm contributing to:
 Some of my projects and repos, newest first:
 
 - 🆕 [restctl-template](https://github.com/jwmoss/restctl-template) - Cookiecutter template for Go REST API CLI tools.
-- 🗓️ [skycli](https://github.com/jwmoss/skycli) - Unofficial Go CLI for the Skylight Calendar private API (frames, chores, events, lists, photos, routines).
-- 🍺 [homebrew-tap](https://github.com/jwmoss/homebrew-tap) - Homebrew tap for my CLIs (`brew tap jwmoss/tap`).
-- 🏛️ [congress-trades](https://github.com/jwmoss/congress-trades) - Track and analyze congressional trade disclosures.
-- 📊 [optionctl](https://github.com/jwmoss/optionctl) - CLI for working with options data and analytics.
 - 🖥️ [unraidctl](https://github.com/jwmoss/unraidctl) - Go CLI for interacting with the Unraid API on my home server.
-- 📝 [notesctl](https://github.com/jwmoss/notesctl) - CLI to safely export Apple iCloud Notes to Markdown.
 - 🔍 [forage](https://github.com/jwmoss/forage) - Python CLI to scrape posts, comments, and reactions from private Facebook groups.
+- 🍺 [homebrew-tap](https://github.com/jwmoss/homebrew-tap) - Homebrew tap for my CLIs (`brew tap jwmoss/tap`).
+- 🗓️ [skycli](https://github.com/jwmoss/skycli) - Unofficial Go CLI for the Skylight Calendar private API (frames, chores, events, lists, photos, routines).
+- 📊 [optionctl](https://github.com/jwmoss/optionctl) - CLI for working with options data and analytics.
+- 🏛️ [congress-trades](https://github.com/jwmoss/congress-trades) - Track and analyze congressional trade disclosures.
+- 📝 [notesctl](https://github.com/jwmoss/notesctl) - CLI to safely export Apple iCloud Notes to Markdown.
 - 🍎 [dotfiles](https://github.com/jwmoss/dotfiles) - Personal dotfiles for macOS — zsh, git, ghostty, and more.
+- 🎤 [Presentations](https://github.com/jwmoss/Presentations) - Slides from PowerShell user group talks (Pester, APIs, PowerShell in Jenkins/Docker).
+- 🐚 [powershell_scripts](https://github.com/jwmoss/powershell_scripts) - A long-running collection of PowerShell scripts for Microsoft 365, Entra ID, and Windows automation.
 - 🐳 [JenkinsPwsh](https://github.com/jwmoss/JenkinsPwsh) - Jenkins master with PowerShell installed for PowerShell-driven pipelines.
 - 📺 [PSRadarr](https://github.com/jwmoss/PSRadarr) - PowerShell wrapper around the Radarr API.
-- 🎤 [Presentations](https://github.com/jwmoss/Presentations) - Slides from PowerShell user group talks (Pester, APIs, PowerShell in Jenkins/Docker).
 - 🔒 [PSTenable](https://github.com/jwmoss/PSTenable) - PowerShell wrapper around the Tenable.sc API.
 - 🎞️ [corrupted-media-scanner](https://github.com/jwmoss/corrupted-media-scanner) - HandBrake-based check for unplayable media files.
-- 🐚 [powershell_scripts](https://github.com/jwmoss/powershell_scripts) - A long-running collection of PowerShell scripts for Microsoft 365, Entra ID, and Windows automation.
 
 > Other work lives in private repos: Terraform module libraries, market research pipelines, prediction-market tooling, and a Claude Code skills collection.
 
