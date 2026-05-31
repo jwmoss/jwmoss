@@ -7,7 +7,6 @@ on:
 
 permissions:
   contents: write
-  pull-requests: write
 
 jobs:
   refresh:
@@ -28,7 +27,7 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: uv run scripts/update_profile.py
 
-      - name: Open PR if changed
+      - name: Commit if changed
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
@@ -37,16 +36,9 @@ jobs:
             echo "no changes"
             exit 0
           fi
-          branch="profile-update-$(date -u +%Y%m%d-%H%M)"
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           gh auth setup-git
-          git checkout -b "$branch"
           git add readme.md
           git commit -m "Refresh profile with new repos and OSS contributions"
-          git push -u origin "$branch"
-          gh pr create \
-            --title "Refresh profile with new repos and OSS contributions" \
-            --body "Automated nightly update from .github/workflows/update-profile.yml. Hand-curate the 🆕 entries before merging." \
-            --base main \
-            --head "$branch"
+          git push origin HEAD:main
