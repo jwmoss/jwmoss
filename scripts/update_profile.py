@@ -4,15 +4,15 @@
 # ///
 """Refresh the profile readme with newest jwmoss repos and OSS contributions.
 
-Additive only: never edits existing bullets. Inserts a generic 🆕 line for
-each new repo or external repo I have merged PRs in, so the diff is a small
-nudge to come back and hand-curate the emoji and description.
+Existing bullets are preserved as-is (hand-curated emoji and descriptions).
+New repos and external repos with merged PRs get a generic 🆕 line appended.
+The personal projects section is re-sorted by each repo's last push, so repos
+I recently worked on float to the top of "newest first".
 """
 
 from __future__ import annotations
 
 import json
-import os
 import re
 import subprocess
 import sys
@@ -25,147 +25,126 @@ README = Path(__file__).resolve().parent.parent / "readme.md"
 PROJECTS_HEADER = "Some of my projects and repos, newest first:"
 OSS_HEADER = "Open source I'm contributing to:"
 EMOJI = "🆕"
-GITHUB_URL_RE = re.compile(r"github\.com/([\w.-]+)/([\w.-]+)")
-LOOKBACK_DAYS = int(os.environ.get("LOOKBACK_DAYS", "45"))
+LOOKBACK_DAYS = 45
 MAX_PRS_PER_REPO = 5
+GITHUB_URL_RE = re.compile(r"github\.com/([\w.-]+)/([\w.-]+)")
 
 
 def gh(path: str) -> dict | list:
     """Call gh api and return parsed JSON."""
-    result = subprocess.run(
-        ["gh", "api", path],
-        check=True,
-        capture_output=True,
-        text=True,
+    out = subprocess.run(
+        ["gh", "api", path], check=True, capture_output=True, text=True
     )
-    return json.loads(result.stdout)
+    return json.loads(out.stdout)
 
 
-def existing_repos(text: str) -> set[str]:
-    """Return set of 'owner/repo' strings already referenced in the readme."""
-    found: set[str] = set()
-    for match in GITHUB_URL_RE.finditer(text):
-        owner = match.group(1)
-        repo = match.group(2).rstrip(").,;:")
-        if not owner or not repo:
+def find_section(lines: list[str], header: str) -> tuple[int, int]:
+    """Return (start, end) line indices of the bullet block under header."""
+    for i, line in enumerate(lines):
+        if line.strip() != header:
             continue
-        found.add(f"{owner}/{repo}")
-    return found
+        start = i + 1
+        while start < len(lines) and not lines[start].strip():
+            start += 1
+        end = start
+        while end < len(lines) and lines[end].startswith("- "):
+            end += 1
+        return start, end
+    raise SystemExit(f"header not found in readme: {header!r}")
 
 
-def fetch_new_personal_repos(seen: set[str], cutoff: datetime) -> list[dict]:
-    """Return public jwmoss repos created since cutoff that aren't already listed."""
+def get_bullets(text: str, header: str) -> list[str]:
+    lines = text.splitlines()
+    start, end = find_section(lines, header)
+    return lines[start:end]
+
+
+def set_bullets(text: str, header: str, bullets: list[str]) -> str:
+    lines = text.splitlines()
+    start, end = find_section(lines, header)
+    lines[start:end] = bullets
+    return "\n".join(lines) + ("\n" if text.endswith("\n") else "")
+
+
+def repos_in(text: str) -> set[str]:
+    """Return 'owner/repo' strings already referenced anywhere in the readme."""
+    return {f"{o}/{r.rstrip(').,;:')}" for o, r in GITHUB_URL_RE.findall(text)}
+
+
+def last_push(bullet: str) -> datetime:
+    """Sort key: the repo's last-push time, or epoch if it can't be read."""
+    floor = datetime.min.replace(tzinfo=timezone.utc)
+    match = GITHUB_URL_RE.search(bullet)
+    if not match:
+        return floor
+    full = f"{match.group(1)}/{match.group(2).rstrip(').,;:')}"
+    try:
+        meta = gh(f"repos/{full}")
+    except subprocess.CalledProcessError:
+        print(f"! could not fetch {full}, sinking to bottom")
+        return floor
+    assert isinstance(meta, dict)
+    stamp = meta.get("pushed_at")
+    return datetime.fromisoformat(stamp.replace("Z", "+00:00")) if stamp else floor
+
+
+def new_personal_bullets(seen: set[str], cutoff: datetime) -> list[str]:
+    """Bullets for public jwmoss repos created since cutoff and not yet listed."""
     repos = gh(f"users/{USERNAME}/repos?sort=created&direction=desc&per_page=30")
     assert isinstance(repos, list)
-    new: list[dict] = []
-    for repo in repos:
-        if repo["fork"] or repo["archived"] or repo["private"]:
+    bullets = []
+    for r in repos:
+        created = datetime.fromisoformat(r["created_at"].replace("Z", "+00:00"))
+        if r["fork"] or r["archived"] or r["private"] or not r.get("description"):
             continue
-        if not repo.get("description"):
+        if r["full_name"] in seen or created < cutoff:
             continue
-        if repo["full_name"] in seen:
-            continue
-        created = datetime.fromisoformat(repo["created_at"].replace("Z", "+00:00"))
-        if created < cutoff:
-            continue
-        new.append(
-            {
-                "full_name": repo["full_name"],
-                "name": repo["name"],
-                "description": repo["description"],
-            }
-        )
-    return new
+        print(f"+ personal: {r['full_name']}")
+        desc = r["description"].rstrip(".")
+        bullets.append(f"- {EMOJI} [{r['name']}](https://github.com/{r['full_name']}) - {desc}.")
+    return bullets
 
 
-def fetch_new_oss_repos(seen: set[str], cutoff: datetime) -> list[dict]:
-    """Return external repos with merged PRs by USERNAME since cutoff that aren't listed."""
+def new_oss_bullets(seen: set[str], cutoff: datetime) -> list[str]:
+    """Bullets for external repos with merged PRs by USERNAME since cutoff."""
     since = cutoff.date().isoformat()
     query = f"is:pr author:{USERNAME} is:merged -user:{USERNAME} created:>={since}"
     data = gh(f"search/issues?q={quote(query)}&sort=created&order=desc&per_page=50")
     assert isinstance(data, dict)
 
-    by_repo: dict[str, list[dict]] = {}
+    by_repo: dict[str, list[int]] = {}
     pr_re = re.compile(r"https://github\.com/([\w.-]+)/([\w.-]+)/pull/(\d+)")
     for item in data.get("items", []):
         match = pr_re.match(item["html_url"])
-        if not match:
-            continue
-        full = f"{match.group(1)}/{match.group(2)}"
-        if full in seen:
-            continue
-        by_repo.setdefault(full, []).append(
-            {"number": int(match.group(3)), "url": item["html_url"]}
-        )
+        if match and (full := f"{match.group(1)}/{match.group(2)}") not in seen:
+            by_repo.setdefault(full, []).append(int(match.group(3)))
 
-    out: list[dict] = []
-    for full, prs in by_repo.items():
+    bullets = []
+    for full, numbers in by_repo.items():
+        print(f"+ oss: {full} ({len(numbers)} merged PRs)")
         meta = gh(f"repos/{full}")
         assert isinstance(meta, dict)
-        recent = sorted(prs, key=lambda p: p["number"], reverse=True)[:MAX_PRS_PER_REPO]
-        out.append(
-            {
-                "full_name": full,
-                "description": meta.get("description") or "",
-                "prs": sorted(recent, key=lambda p: p["number"]),
-            }
+        desc = (meta.get("description") or "").rstrip(".") or full
+        refs = ", ".join(
+            f"[#{n}](https://github.com/{full}/pull/{n})"
+            for n in sorted(numbers, reverse=True)[:MAX_PRS_PER_REPO]
         )
-    return out
-
-
-def render_personal_bullet(repo: dict) -> str:
-    description = repo["description"].rstrip(".")
-    return f"- {EMOJI} [{repo['name']}](https://github.com/{repo['full_name']}) - {description}."
-
-
-def render_oss_bullet(repo: dict) -> str:
-    pr_refs = ", ".join(f"[#{pr['number']}]({pr['url']})" for pr in repo["prs"])
-    description = repo["description"].rstrip(".") or repo["full_name"]
-    return (
-        f"- {EMOJI} [{repo['full_name']}](https://github.com/{repo['full_name']}) - "
-        f"{description} ({pr_refs})."
-    )
-
-
-def insert_after_header(text: str, header: str, bullets: list[str]) -> str:
-    if not bullets:
-        return text
-    lines = text.splitlines()
-    for index, line in enumerate(lines):
-        if line.strip() != header:
-            continue
-        insert_at = index + 1
-        while insert_at < len(lines) and not lines[insert_at].strip():
-            insert_at += 1
-        for offset, bullet in enumerate(bullets):
-            lines.insert(insert_at + offset, bullet)
-        suffix = "\n" if text.endswith("\n") else ""
-        return "\n".join(lines) + suffix
-    raise SystemExit(f"header not found in readme: {header!r}")
+        bullets.append(f"- {EMOJI} [{full}](https://github.com/{full}) - {desc} ({refs}).")
+    return bullets
 
 
 def main() -> int:
     text = README.read_text()
-    seen = existing_repos(text)
+    seen = repos_in(text)
     cutoff = datetime.now(tz=timezone.utc) - timedelta(days=LOOKBACK_DAYS)
 
-    new_personal = fetch_new_personal_repos(seen, cutoff)
-    new_oss = fetch_new_oss_repos(seen, cutoff)
+    oss = new_oss_bullets(seen, cutoff) + get_bullets(text, OSS_HEADER)
+    text = set_bullets(text, OSS_HEADER, oss)
 
-    if not new_personal and not new_oss:
-        print("nothing to add")
-        return 0
+    personal = new_personal_bullets(seen, cutoff) + get_bullets(text, PROJECTS_HEADER)
+    personal.sort(key=last_push, reverse=True)
+    text = set_bullets(text, PROJECTS_HEADER, personal)
 
-    for repo in new_personal:
-        print(f"+ personal: {repo['full_name']}")
-    for repo in new_oss:
-        print(f"+ oss: {repo['full_name']} ({len(repo['prs'])} merged PRs)")
-
-    personal_bullets = [render_personal_bullet(repo) for repo in new_personal]
-    oss_bullets = [render_oss_bullet(repo) for repo in new_oss]
-
-    text = insert_after_header(text, OSS_HEADER, oss_bullets)
-    text = insert_after_header(text, PROJECTS_HEADER, personal_bullets)
     README.write_text(text)
     return 0
 
