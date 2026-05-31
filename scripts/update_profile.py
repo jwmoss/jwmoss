@@ -6,8 +6,8 @@
 
 Existing bullets are preserved as-is (hand-curated emoji and descriptions).
 New repos and external repos with merged PRs get a generic 🆕 line appended.
-The personal projects section is re-sorted by each repo's last push, so repos
-I recently worked on float to the top of "newest first".
+The personal projects section is re-sorted by each repo's last push, so the
+repos I most recently worked on float to the top.
 """
 
 from __future__ import annotations
@@ -22,7 +22,7 @@ from urllib.parse import quote
 
 USERNAME = "jwmoss"
 README = Path(__file__).resolve().parent.parent / "readme.md"
-PROJECTS_HEADER = "Some of my projects and repos, newest first:"
+PROJECTS_HEADER = "Some of my projects and repos, most recently updated first:"
 OSS_HEADER = "Open source I'm contributing to:"
 EMOJI = "🆕"
 LOOKBACK_DAYS = 45
