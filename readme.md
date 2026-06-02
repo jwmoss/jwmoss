@@ -31,8 +31,6 @@ Some of my projects and repos, most recently updated first:
 - 🔒 [PSTenable](https://github.com/jwmoss/PSTenable) - PowerShell wrapper around the Tenable.sc API.
 - 🎞️ [corrupted-media-scanner](https://github.com/jwmoss/corrupted-media-scanner) - HandBrake-based check for unplayable media files.
 
-> Other work lives in private repos: Terraform module libraries, market research pipelines, prediction-market tooling, and a Claude Code skills collection.
-
 I'm always open to building, contributing, collaborating, and chatting. Feel free to [📫 reach out](https://www.linkedin.com/in/iamjmoss/).
 
 - 🐦 [x.com/dadinthecloud](https://x.com/dadinthecloud)
