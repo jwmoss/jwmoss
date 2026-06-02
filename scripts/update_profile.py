@@ -19,7 +19,6 @@ import sys
 from dataclasses import dataclass
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
-from urllib.parse import quote
 
 USERNAME = "jwmoss"
 README = Path(__file__).resolve().parent.parent / "readme.md"
@@ -28,7 +27,9 @@ OSS_HEADER = "Open source I'm contributing to:"
 EMOJI = "🆕"
 LOOKBACK_DAYS = 45
 MAX_PRS_PER_REPO = 5
-SEARCH_PAGE_LIMIT = 3
+SEARCH_PAGE_LIMIT = 10
+REPO_PAGE_LIMIT = 10
+PER_PAGE = 100
 GITHUB_URL_RE = re.compile(r"github\.com/([\w.-]+)/([\w.-]+)")
 PR_URL_RE = re.compile(r"https://github\.com/([\w.-]+)/([\w.-]+)/pull/(\d+)")
 RECENT_PRS_PREFIX = " Recent merged PRs: "
@@ -49,6 +50,7 @@ class PullRequest:
     number: int
     title: str
     merged_at: datetime
+    repo_description: str | None = None
 
 
 def gh(path: str) -> dict | list:
@@ -59,20 +61,69 @@ def gh(path: str) -> dict | list:
     return json.loads(out.stdout)
 
 
-def search_issue_items(query: str) -> list[dict]:
-    """Return issue-search items for a query, newest updates first."""
+def gh_graphql(query: str, fields: dict[str, str]) -> dict:
+    """Call gh graphql and return parsed JSON."""
+    args = ["gh", "api", "graphql", "-f", f"query={query}"]
+    for key, value in fields.items():
+        args.extend(["-f", f"{key}={value}"])
+    out = subprocess.run(args, check=True, capture_output=True, text=True)
+    return json.loads(out.stdout)
+
+
+def gh_pages(path: str, *, page_limit: int = REPO_PAGE_LIMIT) -> list[dict]:
+    """Return REST items from a paged list endpoint."""
     items: list[dict] = []
-    for page in range(1, SEARCH_PAGE_LIMIT + 1):
-        data = gh(
-            "search/issues?"
-            f"q={quote(query)}&sort=updated&order=desc&per_page=100&page={page}"
-        )
-        assert isinstance(data, dict)
-        page_items = data.get("items", [])
-        items.extend(page_items)
-        if len(page_items) < 100:
+    separator = "&" if "?" in path else "?"
+    for page in range(1, page_limit + 1):
+        data = gh(f"{path}{separator}per_page={PER_PAGE}&page={page}")
+        assert isinstance(data, list)
+        items.extend(data)
+        if len(data) < PER_PAGE:
             break
     return items
+
+
+def search_merged_pr_nodes(query: str) -> list[dict]:
+    """Return PullRequest GraphQL nodes for a GitHub search query."""
+    graphql = """
+    query($searchQuery: String!, $after: String) {
+      search(query: $searchQuery, type: ISSUE, first: 100, after: $after) {
+        pageInfo {
+          hasNextPage
+          endCursor
+        }
+        nodes {
+          ... on PullRequest {
+            number
+            title
+            url
+            mergedAt
+            repository {
+              nameWithOwner
+              description
+            }
+          }
+        }
+      }
+    }
+    """
+    nodes: list[dict] = []
+    after = ""
+    for _ in range(SEARCH_PAGE_LIMIT):
+        fields = {"searchQuery": query}
+        if after:
+            fields["after"] = after
+        data = gh_graphql(graphql, fields)
+        search = data.get("data", {}).get("search", {})
+        page_nodes = [node for node in search.get("nodes", []) if node]
+        nodes.extend(page_nodes)
+        page_info = search.get("pageInfo", {})
+        if not page_info.get("hasNextPage"):
+            break
+        after = page_info.get("endCursor") or ""
+        if not after:
+            break
+    return nodes
 
 
 def find_section(lines: list[str], header: str) -> tuple[int, int]:
@@ -140,24 +191,35 @@ def contribution_phrase(pr: PullRequest) -> str:
     return f"{pr_label(pr)} ({pr_ref(pr.repo, pr.number)})"
 
 
-def append_contributions(bullet: str, additions: list[PullRequest]) -> str:
-    if not additions:
-        return bullet
+def phrase_list(phrases: list[str]) -> str:
+    if not phrases:
+        return ""
+    if len(phrases) == 1:
+        return phrases[0]
+    if len(phrases) == 2:
+        return f"{phrases[0]} and {phrases[1]}"
+    return ", ".join(phrases[:-1]) + f", and {phrases[-1]}"
+
+
+def split_recent_clause(bullet: str) -> tuple[str, str]:
     base = bullet.rstrip()
     if base.endswith("."):
         base = base[:-1]
+    if RECENT_PRS_PREFIX not in base:
+        return base, ""
+    base, recent = base.split(RECENT_PRS_PREFIX, 1)
+    base = base.rstrip()
+    if base.endswith("."):
+        base = base[:-1]
+    return base, recent.strip()
 
-    phrases = [contribution_phrase(pr) for pr in additions]
-    if len(phrases) == 1:
-        new_text = phrases[0]
-    elif len(phrases) == 2:
-        new_text = f"{phrases[0]} and {phrases[1]}"
-    else:
-        new_text = ", ".join(phrases[:-1]) + f", and {phrases[-1]}"
 
-    if RECENT_PRS_PREFIX in base:
-        return f"{base}, and {new_text}."
-    return f"{base}.{RECENT_PRS_PREFIX}{new_text}."
+def refresh_recent_clause(bullet: str, recent_prs: list[PullRequest]) -> str:
+    base, _ = split_recent_clause(bullet)
+    if not recent_prs:
+        return f"{base}."
+    phrases = [contribution_phrase(pr) for pr in recent_prs]
+    return f"{base}.{RECENT_PRS_PREFIX}{phrase_list(phrases)}."
 
 
 def last_push(bullet: str) -> datetime:
@@ -179,14 +241,14 @@ def last_push(bullet: str) -> datetime:
 
 def new_personal_bullets(seen: set[str], cutoff: datetime) -> list[str]:
     """Bullets for public jwmoss repos created since cutoff and not yet listed."""
-    repos = gh(f"users/{USERNAME}/repos?sort=created&direction=desc&per_page=30")
-    assert isinstance(repos, list)
     bullets = []
-    for r in repos:
+    for r in gh_pages(f"users/{USERNAME}/repos?sort=created&direction=desc"):
         created = datetime.fromisoformat(r["created_at"].replace("Z", "+00:00"))
+        if created < cutoff:
+            break
         if r["fork"] or r["archived"] or r["private"] or not r.get("description"):
             continue
-        if r["full_name"] in seen or created < cutoff:
+        if r["full_name"] in seen:
             continue
         print(f"+ personal: {r['full_name']}")
         desc = r["description"].rstrip(".")
@@ -199,20 +261,19 @@ def merged_external_prs(cutoff: datetime) -> dict[str, list[PullRequest]]:
     since = cutoff.date().isoformat()
     query = f"is:pr author:{USERNAME} is:merged -user:{USERNAME} merged:>={since}"
     by_repo: dict[str, list[PullRequest]] = {}
-    for item in search_issue_items(query):
-        match = PR_URL_RE.match(item["html_url"])
-        if not match:
+    for node in search_merged_pr_nodes(query):
+        repo = node.get("repository", {}).get("nameWithOwner")
+        merged_at = node.get("mergedAt")
+        if not repo or not merged_at:
             continue
-        repo = f"{match.group(1)}/{match.group(2)}"
-        merged_at = item.get("closed_at")
-        if not merged_at:
-            continue
+        description = node.get("repository", {}).get("description")
         by_repo.setdefault(repo, []).append(
             PullRequest(
                 repo=repo,
-                number=int(match.group(3)),
-                title=item["title"],
+                number=int(node["number"]),
+                title=node["title"],
                 merged_at=datetime.fromisoformat(merged_at.replace("Z", "+00:00")),
+                repo_description=description,
             )
         )
 
@@ -230,23 +291,23 @@ def refresh_oss_bullets(existing: list[str], prs_by_repo: dict[str, list[PullReq
         repo = repo_from_bullet(bullet)
         if not repo or repo not in prs_by_repo:
             continue
-        existing_prs = prs_in_bullet(bullet, repo)
-        additions = [
+        base, _ = split_recent_clause(bullet)
+        base_prs = prs_in_bullet(base, repo)
+        recent_prs = [
             pr
             for pr in prs_by_repo[repo]
-            if pr.number not in existing_prs
+            if pr.number not in base_prs
         ][:MAX_PRS_PER_REPO]
-        if additions:
-            print(f"~ oss: {repo} (+{len(additions)} merged PRs)")
-            bullets[i] = append_contributions(bullet, additions)
+        refreshed = refresh_recent_clause(bullet, recent_prs)
+        if refreshed != bullet:
+            print(f"~ oss: {repo} ({len(recent_prs)} recent merged PRs)")
+            bullets[i] = refreshed
 
     for repo, prs in prs_by_repo.items():
         if repo in referenced:
             continue
         print(f"+ oss: {repo} ({len(prs)} merged PRs)")
-        meta = gh(f"repos/{repo}")
-        assert isinstance(meta, dict)
-        desc = (meta.get("description") or "").rstrip(".") or repo
+        desc = (prs[0].repo_description or "").rstrip(".") or repo
         refs = ", ".join(
             pr_ref(repo, pr.number)
             for pr in prs[:MAX_PRS_PER_REPO]
