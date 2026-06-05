@@ -1,6 +1,6 @@
 ### Hi 👋, I'm Jonathan
 
-Husband, dad, platform engineer. Focused on Infra-As-Code and AI across on-prem and cloud.
+Husband, Dad, platform engineer.
 
 - 🌱 Obsessing on AI, IaC, and DevOps.
 - 🔭 Past life: PowerShell user-group co-organizer (rtpsug).
