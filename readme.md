@@ -14,6 +14,7 @@ Open source I'm contributing to:
 
 Some of my projects and repos, most recently updated first:
 
+- 📝 [notesctl](https://github.com/jwmoss/notesctl) - CLI to safely export Apple iCloud Notes to Markdown.
 - 🗓️ [skycli](https://github.com/jwmoss/skycli) - Unofficial Go CLI for the Skylight Calendar private API (frames, chores, events, lists, photos, routines).
 - 🍺 [homebrew-tap](https://github.com/jwmoss/homebrew-tap) - Homebrew tap for my CLIs (`brew tap jwmoss/tap`).
 - 🔍 [forage](https://github.com/jwmoss/forage) - Python CLI to scrape posts, comments, and reactions from private Facebook groups.
@@ -21,7 +22,6 @@ Some of my projects and repos, most recently updated first:
 - 🆕 [restctl-template](https://github.com/jwmoss/restctl-template) - Cookiecutter template for Go REST API CLI tools.
 - 📊 [optionctl](https://github.com/jwmoss/optionctl) - CLI for working with options data and analytics.
 - 🏛️ [congress-trades](https://github.com/jwmoss/congress-trades) - Track and analyze congressional trade disclosures.
-- 📝 [notesctl](https://github.com/jwmoss/notesctl) - CLI to safely export Apple iCloud Notes to Markdown.
 - 🍎 [dotfiles](https://github.com/jwmoss/dotfiles) - Personal dotfiles for macOS — zsh, git, ghostty, and more.
 - 🎤 [Presentations](https://github.com/jwmoss/Presentations) - Slides from PowerShell user group talks (Pester, APIs, PowerShell in Jenkins/Docker).
 - 🐚 [powershell_scripts](https://github.com/jwmoss/powershell_scripts) - A long-running collection of PowerShell scripts for Microsoft 365, Entra ID, and Windows automation.
