@@ -15,7 +15,6 @@ Open source I'm contributing to:
 Some of my projects and repos, most recently updated first:
 
 - 🆕 [terraform-provider-daytona](https://github.com/jwmoss/terraform-provider-daytona) - Terraform provider for Daytona sandboxes and infrastructure.
-- 🆕 [terraform-provider-e2b](https://github.com/jwmoss/terraform-provider-e2b) - Terraform provider for E2B sandbox infrastructure.
 - 🍺 [homebrew-tap](https://github.com/jwmoss/homebrew-tap) - Homebrew tap for my CLIs (`brew tap jwmoss/tap`).
 - 🗓️ [skycli](https://github.com/jwmoss/skycli) - Unofficial Go CLI for the Skylight Calendar private API (frames, chores, events, lists, photos, routines).
 - 🔍 [forage](https://github.com/jwmoss/forage) - Python CLI to scrape posts, comments, and reactions from private Facebook groups.
