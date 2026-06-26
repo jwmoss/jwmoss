@@ -30,6 +30,12 @@ MAX_PRS_PER_REPO = 5
 SEARCH_PAGE_LIMIT = 10
 REPO_PAGE_LIMIT = 10
 PER_PAGE = 100
+EXCLUDED_REPOS = frozenset(
+    {
+        "536tech/terraform-provider-daytona",
+        "jwmoss/terraform-provider-daytona",
+    }
+)
 GITHUB_URL_RE = re.compile(r"github\.com/([\w.-]+)/([\w.-]+)")
 PR_URL_RE = re.compile(r"https://github\.com/([\w.-]+)/([\w.-]+)/pull/(\d+)")
 RECENT_PRS_PREFIX = " Recent merged PRs: "
@@ -248,7 +254,7 @@ def new_personal_bullets(seen: set[str], cutoff: datetime) -> list[str]:
             break
         if r["fork"] or r["archived"] or r["private"] or not r.get("description"):
             continue
-        if r["full_name"] in seen:
+        if r["full_name"] in seen or r["full_name"] in EXCLUDED_REPOS:
             continue
         print(f"+ personal: {r['full_name']}")
         desc = r["description"].rstrip(".")
@@ -264,7 +270,7 @@ def merged_external_prs(cutoff: datetime) -> dict[str, list[PullRequest]]:
     for node in search_merged_pr_nodes(query):
         repo = node.get("repository", {}).get("nameWithOwner")
         merged_at = node.get("mergedAt")
-        if not repo or not merged_at:
+        if not repo or not merged_at or repo in EXCLUDED_REPOS:
             continue
         description = node.get("repository", {}).get("description")
         by_repo.setdefault(repo, []).append(
