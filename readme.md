@@ -9,13 +9,6 @@ I am a husband, a dad, and a platform engineer.
 - 💬 Ask me about Terraform, Azure, PowerShell, agents, AI, Databricks, Intune, Entra ID, Microsoft Graph, or FinOps.
 - 🍳 Away from the screen, I smoke briskets and spend time with my family.
 
-## Open-source contributions
-
-- 🦀 [openclaw/crabbox](https://github.com/openclaw/crabbox) - Azure provider support: Linux + native Windows leases ([#39](https://github.com/openclaw/crabbox/pull/39)), Windows desktop + WSL2 leases ([#81](https://github.com/openclaw/crabbox/pull/81)), checkpointable OS disks ([#111](https://github.com/openclaw/crabbox/pull/111)), and split bootstrap profiles ([#112](https://github.com/openclaw/crabbox/pull/112)). Recent merged PRs: Multipass provider ([#197](https://github.com/openclaw/crabbox/pull/197)).
-- 🖨️ [mvanhorn/printing-press-library](https://github.com/mvanhorn/printing-press-library) - Endorsed library of CLIs from the CLI Printing Press: harris-teeter CLI ([#649](https://github.com/mvanhorn/printing-press-library/pull/649)) and redfin auto-refresh + client-side filter fix ([#645](https://github.com/mvanhorn/printing-press-library/pull/645)).
-- 🆕 [536tech/terraform-provider-e2b](https://github.com/536tech/terraform-provider-e2b) - Terraform provider for E2B sandboxes and infrastructure ([#3](https://github.com/536tech/terraform-provider-e2b/pull/3)).
-- 🆕 [536tech/.github](https://github.com/536tech/.github) - 536 Technologies organization profile and community health files ([#1](https://github.com/536tech/.github/pull/1)).
-
 ## Projects
 
 - 🔍 [forage](https://github.com/jwmoss/forage) - Python CLI to scrape posts, comments, and reactions from private Facebook groups.

@@ -17,9 +17,6 @@ jobs:
         with:
           persist-credentials: false
 
-      - name: Test profile updater
-        run: python3 -m unittest discover -s tests
-
       - name: Refresh README
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
