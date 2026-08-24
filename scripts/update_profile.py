@@ -22,8 +22,8 @@ from pathlib import Path
 
 USERNAME = "jwmoss"
 README = Path(__file__).resolve().parent.parent / "readme.md"
-PROJECTS_HEADER = "Some of my projects and repos, most recently updated first:"
-OSS_HEADER = "Open source I'm contributing to:"
+PROJECTS_HEADER = "## Projects"
+OSS_HEADER = "## Open-source contributions"
 EMOJI = "🆕"
 LOOKBACK_DAYS = 45
 MAX_PRS_PER_REPO = 5
@@ -107,6 +107,7 @@ def search_merged_pr_nodes(query: str) -> list[dict]:
             repository {
               nameWithOwner
               description
+              isPrivate
             }
           }
         }
@@ -209,14 +210,12 @@ def phrase_list(phrases: list[str]) -> str:
 
 def split_recent_clause(bullet: str) -> tuple[str, str]:
     base = bullet.rstrip()
-    if base.endswith("."):
-        base = base[:-1]
+    base = base.removesuffix(".")
     if RECENT_PRS_PREFIX not in base:
         return base, ""
     base, recent = base.split(RECENT_PRS_PREFIX, 1)
     base = base.rstrip()
-    if base.endswith("."):
-        base = base[:-1]
+    base = base.removesuffix(".")
     return base, recent.strip()
 
 
@@ -258,7 +257,9 @@ def new_personal_bullets(seen: set[str], cutoff: datetime) -> list[str]:
             continue
         print(f"+ personal: {r['full_name']}")
         desc = r["description"].rstrip(".")
-        bullets.append(f"- {EMOJI} [{r['name']}](https://github.com/{r['full_name']}) - {desc}.")
+        bullets.append(
+            f"- {EMOJI} [{r['name']}](https://github.com/{r['full_name']}) - {desc}."
+        )
     return bullets
 
 
@@ -268,11 +269,17 @@ def merged_external_prs(cutoff: datetime) -> dict[str, list[PullRequest]]:
     query = f"is:pr author:{USERNAME} is:merged -user:{USERNAME} merged:>={since}"
     by_repo: dict[str, list[PullRequest]] = {}
     for node in search_merged_pr_nodes(query):
-        repo = node.get("repository", {}).get("nameWithOwner")
+        repository = node.get("repository", {})
+        repo = repository.get("nameWithOwner")
         merged_at = node.get("mergedAt")
-        if not repo or not merged_at or repo in EXCLUDED_REPOS:
+        if (
+            not repo
+            or not merged_at
+            or repository.get("isPrivate", True)
+            or repo in EXCLUDED_REPOS
+        ):
             continue
-        description = node.get("repository", {}).get("description")
+        description = repository.get("description")
         by_repo.setdefault(repo, []).append(
             PullRequest(
                 repo=repo,
@@ -288,7 +295,9 @@ def merged_external_prs(cutoff: datetime) -> dict[str, list[PullRequest]]:
     return by_repo
 
 
-def refresh_oss_bullets(existing: list[str], prs_by_repo: dict[str, list[PullRequest]]) -> list[str]:
+def refresh_oss_bullets(
+    existing: list[str], prs_by_repo: dict[str, list[PullRequest]]
+) -> list[str]:
     """Add newly merged PRs to existing OSS bullets and create bullets for new repos."""
     bullets = existing[:]
     referenced = {repo for bullet in bullets if (repo := repo_from_bullet(bullet))}
@@ -299,11 +308,9 @@ def refresh_oss_bullets(existing: list[str], prs_by_repo: dict[str, list[PullReq
             continue
         base, _ = split_recent_clause(bullet)
         base_prs = prs_in_bullet(base, repo)
-        recent_prs = [
-            pr
-            for pr in prs_by_repo[repo]
-            if pr.number not in base_prs
-        ][:MAX_PRS_PER_REPO]
+        recent_prs = [pr for pr in prs_by_repo[repo] if pr.number not in base_prs][
+            :MAX_PRS_PER_REPO
+        ]
         refreshed = refresh_recent_clause(bullet, recent_prs)
         if refreshed != bullet:
             print(f"~ oss: {repo} ({len(recent_prs)} recent merged PRs)")
@@ -314,11 +321,10 @@ def refresh_oss_bullets(existing: list[str], prs_by_repo: dict[str, list[PullReq
             continue
         print(f"+ oss: {repo} ({len(prs)} merged PRs)")
         desc = (prs[0].repo_description or "").rstrip(".") or repo
-        refs = ", ".join(
-            pr_ref(repo, pr.number)
-            for pr in prs[:MAX_PRS_PER_REPO]
+        refs = ", ".join(pr_ref(repo, pr.number) for pr in prs[:MAX_PRS_PER_REPO])
+        bullets.append(
+            f"- {EMOJI} [{repo}](https://github.com/{repo}) - {desc} ({refs})."
         )
-        bullets.append(f"- {EMOJI} [{repo}](https://github.com/{repo}) - {desc} ({refs}).")
 
     return bullets
 
@@ -328,7 +334,9 @@ def main() -> int:
     seen = repos_in(text)
     cutoff = datetime.now(tz=timezone.utc) - timedelta(days=LOOKBACK_DAYS)
 
-    oss = refresh_oss_bullets(get_bullets(text, OSS_HEADER), merged_external_prs(cutoff))
+    oss = refresh_oss_bullets(
+        get_bullets(text, OSS_HEADER), merged_external_prs(cutoff)
+    )
     text = set_bullets(text, OSS_HEADER, oss)
 
     personal = new_personal_bullets(seen, cutoff) + get_bullets(text, PROJECTS_HEADER)

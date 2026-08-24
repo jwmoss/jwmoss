@@ -1,20 +1,22 @@
-### Hi 👋, I'm Jonathan
+# Hi, I'm Jonathan 👋
 
-Husband, Dad, platform engineer.
+I am a husband, a dad, and a platform engineer.
 
-- 🌱 Obsessing on AI, IaC, and DevOps.
-- 🔭 Past life: PowerShell user-group co-organizer (rtpsug).
-- 💬 Ask me about **Terraform, Azure, PowerShell, Agents, AI, Databricks, Intune, Entra ID, Microsoft Graph, FinOps, or PowerShell**.
-- 🍳 Off-screen: smoking briskets and spending time with family.
+## About me
 
-Open source I'm contributing to:
+- 🌱 I focus on AI, infrastructure as code, and DevOps.
+- 🔭 I was a co-organizer of the Research Triangle PowerShell User Group.
+- 💬 Ask me about Terraform, Azure, PowerShell, agents, AI, Databricks, Intune, Entra ID, Microsoft Graph, or FinOps.
+- 🍳 Away from the screen, I smoke briskets and spend time with my family.
+
+## Open-source contributions
 
 - 🦀 [openclaw/crabbox](https://github.com/openclaw/crabbox) - Azure provider support: Linux + native Windows leases ([#39](https://github.com/openclaw/crabbox/pull/39)), Windows desktop + WSL2 leases ([#81](https://github.com/openclaw/crabbox/pull/81)), checkpointable OS disks ([#111](https://github.com/openclaw/crabbox/pull/111)), and split bootstrap profiles ([#112](https://github.com/openclaw/crabbox/pull/112)). Recent merged PRs: Multipass provider ([#197](https://github.com/openclaw/crabbox/pull/197)).
 - 🖨️ [mvanhorn/printing-press-library](https://github.com/mvanhorn/printing-press-library) - Endorsed library of CLIs from the CLI Printing Press: harris-teeter CLI ([#649](https://github.com/mvanhorn/printing-press-library/pull/649)) and redfin auto-refresh + client-side filter fix ([#645](https://github.com/mvanhorn/printing-press-library/pull/645)).
 - 🆕 [536tech/terraform-provider-e2b](https://github.com/536tech/terraform-provider-e2b) - Terraform provider for E2B sandboxes and infrastructure ([#3](https://github.com/536tech/terraform-provider-e2b/pull/3)).
 - 🆕 [536tech/.github](https://github.com/536tech/.github) - 536 Technologies organization profile and community health files ([#1](https://github.com/536tech/.github/pull/1)).
 
-Some of my projects and repos, most recently updated first:
+## Projects
 
 - 🔍 [forage](https://github.com/jwmoss/forage) - Python CLI to scrape posts, comments, and reactions from private Facebook groups.
 - 🍺 [homebrew-tap](https://github.com/jwmoss/homebrew-tap) - Homebrew tap for my CLIs (`brew tap jwmoss/tap`).
@@ -33,8 +35,10 @@ Some of my projects and repos, most recently updated first:
 - 🔒 [PSTenable](https://github.com/jwmoss/PSTenable) - PowerShell wrapper around the Tenable.sc API.
 - 🎞️ [corrupted-media-scanner](https://github.com/jwmoss/corrupted-media-scanner) - HandBrake-based check for unplayable media files.
 
-I'm always open to building, contributing, collaborating, and chatting. Feel free to [📫 reach out](https://www.linkedin.com/in/iamjmoss/).
+## Contact
 
-- 🐦 [x.com/dadinthecloud](https://x.com/dadinthecloud)
-- ✉️ [jonathan@536tech.com](mailto:jonathan@536tech.com)
-- 🌍 [jonathanmoss.dev](https://jonathanmoss.dev)
+I am open to new projects, contributions, and conversations.
+
+- 💼 [LinkedIn](https://www.linkedin.com/in/iamjmoss/)
+- ✉️ [Email](mailto:jonathan@536tech.com)
+- 🌍 [Website](https://jonathanmoss.dev)
