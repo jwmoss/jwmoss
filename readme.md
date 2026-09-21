@@ -11,12 +11,12 @@ I am a husband, a dad, and a platform engineer.
 
 ## Projects
 
-- 🔍 [forage](https://github.com/jwmoss/forage) - Python CLI to scrape posts, comments, and reactions from private Facebook groups.
-- 🆕 [edcctl](https://github.com/jwmoss/edcctl) - Read-only CLI for the Evolution Dance Complex Studio Pro parent portal.
-- 🍺 [homebrew-tap](https://github.com/jwmoss/homebrew-tap) - Homebrew tap for my CLIs (`brew tap jwmoss/tap`).
 - 🗓️ [skycli](https://github.com/jwmoss/skycli) - Unofficial Go CLI for the Skylight Calendar private API (frames, chores, events, lists, photos, routines).
+- 🍺 [homebrew-tap](https://github.com/jwmoss/homebrew-tap) - Homebrew tap for my CLIs (`brew tap jwmoss/tap`).
 - 🆕 [classreach](https://github.com/jwmoss/classreach) - Command-line client for the ClassReach private API.
+- 🔍 [forage](https://github.com/jwmoss/forage) - Python CLI to scrape posts, comments, and reactions from private Facebook groups.
 - 🖥️ [unraidctl](https://github.com/jwmoss/unraidctl) - Go CLI for interacting with the Unraid API on my home server.
+- 🆕 [edcctl](https://github.com/jwmoss/edcctl) - Read-only CLI for the Evolution Dance Complex Studio Pro parent portal.
 - 📊 [optionctl](https://github.com/jwmoss/optionctl) - CLI for working with options data and analytics.
 - 📝 [notesctl](https://github.com/jwmoss/notesctl) - CLI to safely export Apple iCloud Notes to Markdown.
 - 🆕 [restctl-template](https://github.com/jwmoss/restctl-template) - Cookiecutter template for Go REST API CLI tools.
