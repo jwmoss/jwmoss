@@ -12,15 +12,15 @@ I am a husband, a dad, and a platform engineer.
 ## Projects
 
 - 🍺 [homebrew-tap](https://github.com/jwmoss/homebrew-tap) - Homebrew tap for my CLIs (`brew tap jwmoss/tap`).
+- 🆕 [restctl-template](https://github.com/jwmoss/restctl-template) - Cookiecutter template for Go REST API CLI tools.
 - 🆕 [goveetl](https://github.com/jwmoss/goveetl) - Command-line client for Govee cloud, app, and LAN APIs.
-- 🖥️ [unraidctl](https://github.com/jwmoss/unraidctl) - Go CLI for interacting with the Unraid API on my home server.
-- 🔍 [forage](https://github.com/jwmoss/forage) - Python CLI to scrape posts, comments, and reactions from private Facebook groups.
-- 🗓️ [skycli](https://github.com/jwmoss/skycli) - Unofficial Go CLI for the Skylight Calendar private API (frames, chores, events, lists, photos, routines).
 - 🆕 [edcctl](https://github.com/jwmoss/edcctl) - Read-only CLI for the Evolution Dance Complex Studio Pro parent portal.
+- 🖥️ [unraidctl](https://github.com/jwmoss/unraidctl) - Go CLI for interacting with the Unraid API on my home server.
 - 🆕 [classreach](https://github.com/jwmoss/classreach) - Command-line client for the ClassReach private API.
+- 🗓️ [skycli](https://github.com/jwmoss/skycli) - Unofficial Go CLI for the Skylight Calendar private API (frames, chores, events, lists, photos, routines).
+- 🔍 [forage](https://github.com/jwmoss/forage) - Python CLI to scrape posts, comments, and reactions from private Facebook groups.
 - 📊 [optionctl](https://github.com/jwmoss/optionctl) - CLI for working with options data and analytics.
 - 📝 [notesctl](https://github.com/jwmoss/notesctl) - CLI to safely export Apple iCloud Notes to Markdown.
-- 🆕 [restctl-template](https://github.com/jwmoss/restctl-template) - Cookiecutter template for Go REST API CLI tools.
 - 🏛️ [congress-trades](https://github.com/jwmoss/congress-trades) - Track and analyze congressional trade disclosures.
 - 🍎 [dotfiles](https://github.com/jwmoss/dotfiles) - Personal dotfiles for macOS — zsh, git, ghostty, and more.
 - 🎤 [Presentations](https://github.com/jwmoss/Presentations) - Slides from PowerShell user group talks (Pester, APIs, PowerShell in Jenkins/Docker).
