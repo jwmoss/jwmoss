@@ -11,6 +11,7 @@ I am a husband, a dad, and a platform engineer.
 
 ## Projects
 
+- 🔍 [forage](https://github.com/jwmoss/forage) - Python CLI to scrape posts, comments, and reactions from private Facebook groups.
 - 🆕 [goveetl](https://github.com/jwmoss/goveetl) - Command-line client for Govee cloud, app, and LAN APIs.
 - 🖥️ [unraidctl](https://github.com/jwmoss/unraidctl) - Go CLI for interacting with the Unraid API on my home server.
 - 🆕 [roborocli](https://github.com/jwmoss/roborocli) - Command-line client for controlling Roborock robot vacuums.
@@ -20,7 +21,6 @@ I am a husband, a dad, and a platform engineer.
 - 🗓️ [skycli](https://github.com/jwmoss/skycli) - Unofficial Go CLI for the Skylight Calendar private API (frames, chores, events, lists, photos, routines).
 - 🆕 [classreach](https://github.com/jwmoss/classreach) - Command-line client for the ClassReach private API.
 - 🏛️ [congress-trades](https://github.com/jwmoss/congress-trades) - Track and analyze congressional trade disclosures.
-- 🔍 [forage](https://github.com/jwmoss/forage) - Python CLI to scrape posts, comments, and reactions from private Facebook groups.
 - 📊 [optionctl](https://github.com/jwmoss/optionctl) - CLI for working with options data and analytics.
 - 🆕 [restctl-template](https://github.com/jwmoss/restctl-template) - Cookiecutter template for Go REST API CLI tools.
 - 🍎 [dotfiles](https://github.com/jwmoss/dotfiles) - Personal dotfiles for macOS — zsh, git, ghostty, and more.
