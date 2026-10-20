@@ -11,10 +11,10 @@ I am a husband, a dad, and a platform engineer.
 
 ## Projects
 
+- 🖥️ [unraidctl](https://github.com/jwmoss/unraidctl) - Go CLI for interacting with the Unraid API on my home server.
 - 🗓️ [skycli](https://github.com/jwmoss/skycli) - Unofficial Go CLI for the Skylight Calendar private API (frames, chores, events, lists, photos, routines).
 - 🆕 [goveetl](https://github.com/jwmoss/goveetl) - Command-line client for Govee cloud, app, and LAN APIs.
 - 🔍 [forage](https://github.com/jwmoss/forage) - Python CLI to scrape posts, comments, and reactions from private Facebook groups.
-- 🖥️ [unraidctl](https://github.com/jwmoss/unraidctl) - Go CLI for interacting with the Unraid API on my home server.
 - 🆕 [roborocli](https://github.com/jwmoss/roborocli) - Command-line client for controlling Roborock robot vacuums.
 - 🍺 [homebrew-tap](https://github.com/jwmoss/homebrew-tap) - Homebrew tap for my CLIs (`brew tap jwmoss/tap`).
 - 📝 [notesctl](https://github.com/jwmoss/notesctl) - CLI to safely export Apple iCloud Notes to Markdown.
