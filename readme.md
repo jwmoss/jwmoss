@@ -11,9 +11,9 @@ I am a husband, a dad, and a platform engineer.
 
 ## Projects
 
+- 🖥️ [unraidctl](https://github.com/jwmoss/unraidctl) - Go CLI for interacting with the Unraid API on my home server.
 - 🆕 [goveetl](https://github.com/jwmoss/goveetl) - Command-line client for Govee cloud, app, and LAN APIs.
 - 🆕 [roborocli](https://github.com/jwmoss/roborocli) - Command-line client for controlling Roborock robot vacuums.
-- 🖥️ [unraidctl](https://github.com/jwmoss/unraidctl) - Go CLI for interacting with the Unraid API on my home server.
 - 🆕 [classreach](https://github.com/jwmoss/classreach) - Command-line client for the ClassReach private API.
 - 🆕 [edcctl](https://github.com/jwmoss/edcctl) - Read-only CLI for the Evolution Dance Complex Studio Pro parent portal.
 - 🗓️ [skycli](https://github.com/jwmoss/skycli) - Unofficial Go CLI for the Skylight Calendar private API (frames, chores, events, lists, photos, routines).
