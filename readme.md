@@ -11,10 +11,10 @@ I am a husband, a dad, and a platform engineer.
 
 ## Projects
 
+- 🆕 [classreach](https://github.com/jwmoss/classreach) - Command-line client for the ClassReach private API.
 - 🆕 [edcctl](https://github.com/jwmoss/edcctl) - Read-only CLI for the Evolution Dance Complex Studio Pro parent portal.
 - 🍺 [homebrew-tap](https://github.com/jwmoss/homebrew-tap) - Homebrew tap for my CLIs (`brew tap jwmoss/tap`).
 - 🔍 [forage](https://github.com/jwmoss/forage) - Python CLI to scrape posts, comments, and reactions from private Facebook groups.
-- 🆕 [classreach](https://github.com/jwmoss/classreach) - Command-line client for the ClassReach private API.
 - 🖥️ [unraidctl](https://github.com/jwmoss/unraidctl) - Go CLI for interacting with the Unraid API on my home server.
 - 🆕 [goveetl](https://github.com/jwmoss/goveetl) - Command-line client for Govee cloud, app, and LAN APIs.
 - 🆕 [roborocli](https://github.com/jwmoss/roborocli) - Command-line client for controlling Roborock robot vacuums.
