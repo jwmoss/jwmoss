@@ -12,9 +12,9 @@ I am a husband, a dad, and a platform engineer.
 ## Projects
 
 - 🆕 [owl](https://github.com/jwmoss/owl) - Ansible playbooks that turn an AMD Strix Halo (Ryzen AI Max+ 395, 128 GB) into a local LLM server: ROCm plus halogen, gufo, Strata, libosmos or Project Maya, with an OpenAI-compatible API.
+- 🗓️ [skycli](https://github.com/jwmoss/skycli) - Unofficial Go CLI for the Skylight Calendar private API (frames, chores, events, lists, photos, routines).
 - 📊 [optionctl](https://github.com/jwmoss/optionctl) - CLI for working with options data and analytics.
 - 🖥️ [unraidctl](https://github.com/jwmoss/unraidctl) - Go CLI for interacting with the Unraid API on my home server.
-- 🗓️ [skycli](https://github.com/jwmoss/skycli) - Unofficial Go CLI for the Skylight Calendar private API (frames, chores, events, lists, photos, routines).
 - 🔍 [forage](https://github.com/jwmoss/forage) - Python CLI to scrape posts, comments, and reactions from private Facebook groups.
 - 🆕 [roborocli](https://github.com/jwmoss/roborocli) - Command-line client for controlling Roborock robot vacuums.
 - 🆕 [goveetl](https://github.com/jwmoss/goveetl) - Command-line client for Govee cloud, app, and LAN APIs.
